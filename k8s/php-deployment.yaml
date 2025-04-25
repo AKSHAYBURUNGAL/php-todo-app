@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-todo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php-todo
+  template:
+    metadata:
+      labels:
+        app: php-todo
+    spec:
+      containers:
+        - name: php-todo
+          image: admin335/php-todo-app:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: DB_HOST
+              value: mysql
+            - name: DB_USER
+              value: root
+            - name: DB_PASSWORD
+              value: ""
+            - name: DB_NAME
+              value: todo_app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-todo-service
+spec:
+  type: NodePort
+  selector:
+    app: php-todo
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080
+
