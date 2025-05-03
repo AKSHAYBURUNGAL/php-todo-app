@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -10,11 +11,13 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: standard
+
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
+  namespace: todo-app  # Added missing namespace
 spec:
   replicas: 1
   selector:
@@ -30,9 +33,11 @@ spec:
           image: mysql:5.7
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: ""
+              value: "your_secure_password"  # Never leave empty in production
             - name: MYSQL_DATABASE
               value: "todo_app"
+          ports:
+            - containerPort: 3306  # Added explicit port declaration
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-storage
@@ -40,14 +45,16 @@ spec:
         - name: mysql-storage
           persistentVolumeClaim:
             claimName: mysql-pvc
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: mysql-service  # Changed from "mysql" to avoid confusion
+  namespace: todo-app  # Added missing namespace
 spec:
   selector:
     app: mysql
   ports:
     - port: 3306
-
+      targetPort: 3306  # Added targetPort
