@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: php-todo
-        image: admin335/php-todo-app:latest
+        image: admin335/php-todo-app:v1.0-25
         ports:
         - containerPort: 80
         env:
