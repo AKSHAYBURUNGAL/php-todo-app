@@ -25,7 +25,7 @@ spec:
         - name: DB_USER
           value: root
         - name: DB_PASSWORD
-          value: ""  # Consider using a Kubernetes Secret instead
+          value: "1122"  # Consider using a Kubernetes Secret instead
         - name: DB_NAME
           value: todo_app
 ---
