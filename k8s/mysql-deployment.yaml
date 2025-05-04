@@ -33,7 +33,7 @@ spec:
           image: mysql:5.7
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: ""  # Never leave empty in production
+              value: "1122"  # Never leave empty in production
             - name: MYSQL_DATABASE
               value: "todo_app"
           ports:
